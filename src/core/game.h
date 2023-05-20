@@ -1,21 +1,22 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <QObject>
-#include <QtGui/qevent.h>
+#include <qwidget.h>
+#include <qevent.h>
 
 #include <entt/entity/registry.hpp>
 
-#include "factories.h"
-
-class Game : QObject 
-{
-    Q_OBJECT
-
+class Game : public QWidget 
+{   
 public:
-    Game();
+    Game(QWidget* parent = nullptr);
+    ~Game() = default;
 
     void init();
+
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
 private:
     enum class State {play,pause};
@@ -23,9 +24,6 @@ private:
     entt::registry reg;
     State state = State::play;
 
-protected:
-    void keyPressEvent(QKeyEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
 };
 
 #endif // GAME_H

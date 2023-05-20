@@ -1,6 +1,9 @@
+#include <qapplication.h>
+
 #include "vizualizer.h"
 
-#include <Qt6/QtWidgets/qapplication.h>
+// WHEN ADDING SIGNALS/SLOTS SET THE Q_OBJECT MACRO NOT EARLIER
+// IT CAUSES BUILD ERROR
 
 int main(int argc, char *argv[])
 {
