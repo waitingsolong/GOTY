@@ -4,6 +4,7 @@
 #include <entt/entity/fwd.hpp>
 
 entt::entity makePlayer(entt::registry &);
+entt::entity makeEnemy(entt::registry &);
 entt::entity makeBullet(entt::registry &);
 
 #endif // FACTORIES_H

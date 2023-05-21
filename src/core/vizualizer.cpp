@@ -14,4 +14,5 @@ Vizualizer::Vizualizer(QWidget *parent)
     setScene(scene_);
 
     this->setBackgroundBrush(Qt::black);
+    this->setWindowTitle("GOTY");
 }

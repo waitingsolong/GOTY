@@ -21,3 +21,7 @@ entt::entity makeBullet(entt::registry &reg) {
 //    reg.emplace<PlayerSprite>(e, animera::SpriteID::pacman_beg_);
     return e;
 }
+
+entt::entity makeEnemy(entt::registry &reg) {
+    const entt::entity e = reg.create();
+}

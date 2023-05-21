@@ -15,7 +15,8 @@ set(QT_DEBUG_PLUGINS 1)
 
 # Include sub-projects.
 add_executable(game 
-          src/core/main.cpp
+          src/main.cpp
+
         	src/core/game.h
         	src/core/game.cpp
         	src/core/vizualizer.h
@@ -23,6 +24,16 @@ add_executable(game
 
         	src/helpers/core/factories.h
         	src/helpers/core/factories.cpp
+
+          src/comp/velocity.h
+          src/comp/acceleration.h
+          src/comp/hp.h
+          src/comp/sprite.h
+          src/comp/position.h
+          src/comp/spawner.h
+          src/comp/life.h
+          src/comp/player.h
+          src/comp/entity.h
 )
 
 # entt
