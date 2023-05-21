@@ -23,7 +23,7 @@ void Game::keyPressEvent(QKeyEvent* event)
     if (state == State::play) {
         keysPressedRightNow[event->key()] = true;
 
-        handlePlayerInput(event); 
+        //handlePlayerInput(event);
     }
 }
 

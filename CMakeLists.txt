@@ -16,11 +16,14 @@ set(QT_DEBUG_PLUGINS 1)
 # Include sub-projects.
 add_executable(game 
           src/main.cpp
+          src/constants.h
 
         	src/core/game.h
         	src/core/game.cpp
         	src/core/vizualizer.h
         	src/core/vizualizer.cpp
+          src/core/resourcemanager.h
+          src/core/resourcemanager.cpp
 
         	src/helpers/core/factories.h
         	src/helpers/core/factories.cpp
@@ -34,7 +37,8 @@ add_executable(game
           src/comp/life.h
           src/comp/player.h
           src/comp/entity.h
-)
+          src/comp/gore.h
+          src/comp/hitbox.h)
 
 # entt
 find_package(EnTT CONFIG REQUIRED)
@@ -44,9 +48,9 @@ target_link_libraries(game PUBLIC EnTT::EnTT)
 enable_testing()
 find_package(GTest CONFIG REQUIRED)
 target_link_libraries(game PUBLIC GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-#add_test(AllTestsInMain main)
+#add_test(AllTestsInMain game)
 
-# qt 
+## qt 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -54,9 +58,33 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+## qtbase
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 qt_standard_project_setup()
 target_link_libraries(game PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
+
+# add resources 
+
+qt_add_resources(game "resources"
+    PREFIX "/"
+    FILES
+        textures/player/fly_fly.png
+)
+
+## qtmultimedia
+
+find_package(Qt6BundledResonanceAudio CONFIG REQUIRED)
+target_link_libraries(game PRIVATE Qt::BundledResonanceAudio Qt6::BundledResonanceAudio)
+
+find_package(Qt6Multimedia CONFIG REQUIRED)
+target_link_libraries(game PRIVATE Qt::Multimedia Qt6::Multimedia Qt::MultimediaPrivate Qt6::MultimediaPrivate)
+
+find_package(Qt6MultimediaWidgets CONFIG REQUIRED)
+target_link_libraries(game PRIVATE Qt::MultimediaWidgets Qt6::MultimediaWidgets Qt::MultimediaWidgetsPrivate Qt6::MultimediaWidgetsPrivate)
+
+find_package(Qt6SpatialAudio CONFIG REQUIRED)
+target_link_libraries(game PRIVATE Qt::SpatialAudio Qt6::SpatialAudio Qt::SpatialAudioPrivate Qt6::SpatialAudioPrivate)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(game)

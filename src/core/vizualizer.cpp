@@ -1,4 +1,5 @@
 #include "vizualizer.h"
+#include "../constants.h"
 
 Vizualizer::Vizualizer(QWidget *parent)
     : QGraphicsView{parent}
@@ -6,11 +7,11 @@ Vizualizer::Vizualizer(QWidget *parent)
     // set up the screen
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(1024,768);
+    setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     // set up the scene
     scene_ = new QGraphicsScene();
-    scene_->setSceneRect(0,0,1024,768);
+    scene_->setSceneRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
     setScene(scene_);
 
     this->setBackgroundBrush(Qt::black);
