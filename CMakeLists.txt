@@ -50,7 +50,7 @@ find_package(GTest CONFIG REQUIRED)
 target_link_libraries(game PUBLIC GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 #add_test(AllTestsInMain game)
 
-## qt 
+# qt 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -58,7 +58,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-## qtbase
+# qtbase
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 qt_standard_project_setup()
@@ -72,7 +72,7 @@ qt_add_resources(game "resources"
         textures/player/fly_fly.png
 )
 
-## qtmultimedia
+# qtmultimedia
 
 find_package(Qt6BundledResonanceAudio CONFIG REQUIRED)
 target_link_libraries(game PRIVATE Qt::BundledResonanceAudio Qt6::BundledResonanceAudio)
@@ -85,6 +85,15 @@ target_link_libraries(game PRIVATE Qt::MultimediaWidgets Qt6::MultimediaWidgets 
 
 find_package(Qt6SpatialAudio CONFIG REQUIRED)
 target_link_libraries(game PRIVATE Qt::SpatialAudio Qt6::SpatialAudio Qt::SpatialAudioPrivate Qt6::SpatialAudioPrivate)
+
+# sdl2 
+
+find_package(SDL2 CONFIG REQUIRED)
+target_link_libraries(game
+    PRIVATE
+    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(game)

@@ -20,12 +20,17 @@ protected:
     void keyReleaseEvent(QKeyEvent* event) override;
 
 private:
-    enum class State {play,pause};
+    enum class State {play,exit};
+    enum class Busyness {hover,encounter,dialogue};
 
     entt::registry reg;
     Vizualizer v;
     State state = State::play;
 
+    bool input = false;
+    void init();
+    void update();
+    void render();
 };
 
 #endif // GAME_H
