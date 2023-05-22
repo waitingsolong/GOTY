@@ -7,17 +7,12 @@
 #include <entt/entity/registry.hpp>
 #include "vizualizer.h"
 
-class Game : public QWidget 
+class Game 
 {   
 public:
-    Game(QWidget* parent = nullptr);
     ~Game() = default;
 
     void play();
-
-protected:
-    void keyPressEvent(QKeyEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
 
 private:
     enum class State {play,exit};
@@ -27,10 +22,13 @@ private:
     Vizualizer v;
     State state = State::play;
 
-    bool input = false;
     void init();
     void update();
     void render();
+
+    void setupInput();
+    void keyboard(); 
+    void handleInput(entt::registry& reg);
 };
 
 #endif // GAME_H

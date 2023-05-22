@@ -21,7 +21,7 @@ entt::entity makePlayer(entt::registry &reg) {
     reg.emplace<Acceleration>(e, QVector2D(0, 0));
     reg.emplace<Gore>(e, 0);
     reg.emplace<Life>(e, PLAYER_AMOUNT_OF_LIFES);
-    //reg.emplace<Sprite>(e, QGraphicsPixmapItem(PLAYER_SPRITE_DEFAULT));
+    reg.emplace<Sprite>(e, QGraphicsPixmapItem(QPixmap(PLAYER_SPRITE_DEFAULT)));
     return e;
 }
 

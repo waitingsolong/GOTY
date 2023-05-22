@@ -19,7 +19,8 @@ add_executable(game
           src/constants.h
 
         	src/core/game.h
-        	src/core/game.cpp
+          src/core/game.cpp
+        	
         	src/core/vizualizer.h
         	src/core/vizualizer.cpp
           src/core/resourcemanager.h
@@ -38,7 +39,8 @@ add_executable(game
           src/comp/player.h
           src/comp/entity.h
           src/comp/gore.h
-          src/comp/hitbox.h)
+          src/comp/hitbox.h 
+          )
 
 # entt
 find_package(EnTT CONFIG REQUIRED)

@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") // off cmd 
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") // off cmd 
 
 #include <qapplication.h>
 #include <qdebug.h>

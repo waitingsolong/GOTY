@@ -10,8 +10,7 @@ constexpr int SCREEN_HEIGHT = 768;
 constexpr int FPS = 30; 
 constexpr int MS_PER_FRAME = 1000 / FPS;
 
-constexpr int SDL_DEFAULT_REPEAT_DELAY;
-constexpr int SDL_DEFAULT_REPEAT_INTERVAL;
+constexpr int SDL_KEYMAP_SIZE = 322; // not sure 
 
 // initialization 
 
@@ -20,6 +19,6 @@ constexpr __int8 PLAYER_AMOUNT_OF_LIFES{ 3 };
 
 // texture paths
 
-//const QString PLAYER_SPRITE_DEFAULT = ":fly_fly.png";
+const QString PLAYER_SPRITE_DEFAULT = ":fly_fly.png";
 
 #endif //CONSTANTS_H
