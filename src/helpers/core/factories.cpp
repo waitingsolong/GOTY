@@ -19,7 +19,7 @@ entt::entity makePlayer(entt::registry &reg) {
     reg.emplace<Player>(e);
     reg.emplace<Position>(e, PLAYER_SPAWNPOS);
     reg.emplace<Velocity>(e, QVector2D(0,0));
-    reg.emplace<Acceleration>(e, QVector2D(0, 0));
+    reg.emplace<Acceleration>(e, QVector2D(0, -PLAYER_BASIC_ACCELERATION_M));
     reg.emplace<Gore>(e, 0);
     reg.emplace<Life>(e, PLAYER_AMOUNT_OF_LIFES);
     return e;

@@ -9,6 +9,9 @@
 #include "../constants.h"
 #include "../comp/enemy.h"
 
+// DEBUG
+#include <iostream>
+
 void updatePhysics(entt::registry& reg)
 {
     moveAll(reg);
@@ -20,12 +23,18 @@ void moveAll(entt::registry& reg)
     auto view = reg.view<Position, Velocity, Acceleration>();
 
     for (auto e : view) {
+        std::cout << "\nmovement happening";
+
         auto& p = view.get<Position>(e).pos;
         auto& v = view.get<Velocity>(e).vel;
         auto& a = view.get<Acceleration>(e).acc;
 
         p += v;
         v += a; 
+
+        std::cout << "\na: " << a.x() << " " << a.y();
+        std::cout << "\nv: " << v.x() << " " << v.y();
+        std::cout << "\np: " << p.x() << " " << p.y();
     }
 }
 

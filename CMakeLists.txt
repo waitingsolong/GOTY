@@ -28,10 +28,6 @@ add_executable(game
 
         	src/core/game.h
           src/core/game.cpp
-        	
-        	
-          src/core/resourcemanager.h
-          src/core/resourcemanager.cpp
 
         	src/helpers/core/factories.h
         	src/helpers/core/factories.cpp
@@ -68,6 +64,7 @@ target_link_libraries(game PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 
 qt_add_resources(game "resources"
     PREFIX "/"
+    BASE "resources/img/player/"
     FILES
         resources/img/player/fly_fly.png
 )

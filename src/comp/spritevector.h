@@ -5,7 +5,7 @@
 #include <qgraphicsitem.h>
 
 struct SpriteVector {
-    QVector<QGraphicsPixmapItem> spV;
+    QVector<QGraphicsPixmapItem*> spV;
 };
 
 #endif //SPRITE_VECTOR_H
