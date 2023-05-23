@@ -12,8 +12,6 @@ constexpr float SCREEN_HEIGHT = 768;
 constexpr int FPS = 30; 
 constexpr int MS_PER_FRAME = 1000 / FPS;
 
-constexpr int SDL_KEYMAP_SIZE = 322; // not sure 
-
 // initialization 
 
 constexpr QVector2D PLAYER_SPAWNPOS{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT * 2.0f / 3.0f };

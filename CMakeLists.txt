@@ -11,7 +11,15 @@ endif()
 
 project ("game")
 
+# qt 
 set(QT_DEBUG_PLUGINS 1)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include sub-projects.
 add_executable(game 
@@ -21,8 +29,7 @@ add_executable(game
         	src/core/game.h
           src/core/game.cpp
         	
-        	src/core/vizualizer.h
-        	src/core/vizualizer.cpp
+        	
           src/core/resourcemanager.h
           src/core/resourcemanager.cpp
 
@@ -51,14 +58,6 @@ find_package(GTest CONFIG REQUIRED)
 target_link_libraries(game PUBLIC GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 #add_test(AllTestsInMain game)
 
-# qt 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # qtbase
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
@@ -86,15 +85,6 @@ target_link_libraries(game PRIVATE Qt::MultimediaWidgets Qt6::MultimediaWidgets 
 
 find_package(Qt6SpatialAudio CONFIG REQUIRED)
 target_link_libraries(game PRIVATE Qt::SpatialAudio Qt6::SpatialAudio Qt::SpatialAudioPrivate Qt6::SpatialAudioPrivate)
-
-# sdl2 
-
-find_package(SDL2 CONFIG REQUIRED)
-target_link_libraries(game
-    PRIVATE
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
-)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(game)

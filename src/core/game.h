@@ -1,32 +1,40 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <qwidget.h>
+#include <qgraphicsview.h>
 #include <qevent.h>
 
 #include <entt/entity/registry.hpp>
-#include "vizualizer.h"
+#include <QBasicTimer>
 
-class Game 
+class Game : QGraphicsView
 {   
+    Q_OBJECT
+
 public:
+    explicit Game(QWidget* parent = nullptr);
     ~Game() = default;
 
     void play();
+
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
+    void timerEvent(QTimerEvent* event) override;
 
 private:
     enum class State {play,exit};
     enum class Busyness {hover,encounter,dialogue};
 
     entt::registry reg;
-    Vizualizer v;
     State state = State::play;
+    QGraphicsScene* scene;
+    QBasicTimer animation_timer_;
 
     void init();
     void update();
     void render();
 
-    void setupInput(); 
     void handleInput(entt::registry& reg);
 
     // gameplay 

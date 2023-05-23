@@ -2,10 +2,8 @@
 
 #include <qapplication.h>
 #include <qdebug.h>
-#include <SDL2/SDL.h>
 #include <iostream>
 
-#include "core/vizualizer.h"
 #include "core/game.h"
 
 // DEBUG

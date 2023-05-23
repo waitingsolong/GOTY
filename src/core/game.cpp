@@ -1,13 +1,11 @@
 #include <map>
 #include <chrono>
-#include <SDL.h>
 
 // DEBUG 
 #include <thread>
 
 #include "game.h"
 #include "../helpers/core/factories.h"
-#include "vizualizer.h"
 #include "../constants.h"
 #include "../sys/physics.h"
 #include "../helpers/core/setupplayer.h"
@@ -16,39 +14,82 @@
 #include "../comp/acceleration.h"
 #include <iostream>
 
+Game::Game(QWidget* parent)
+    : QGraphicsView{ parent }
+{
+    // set up the screen
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    // set up the scene
+    scene = new QGraphicsScene();
+    scene->setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    setScene(scene);
+
+    this->setBackgroundBrush(Qt::black);
+    this->setWindowTitle("GOTY");
+}
+
+std::chrono::high_resolution_clock::time_point t1;
+std::chrono::high_resolution_clock::time_point t2;
+std::chrono::duration<double, std::milli> dt;
+
 void Game::play()
 {
-    init();
+    this->show(); 
 
-    v.show();
+    t1 = std::chrono::high_resolution_clock::now();
 
-    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    std::chrono::high_resolution_clock::time_point t2;
-    std::chrono::duration<double, std::milli> dt; 
-    double lag = 0.0;
-
-    while (state != State::exit) {
-        t2 = std::chrono::high_resolution_clock::now();
-        dt = t2 - t1;
-        lag += dt.count();
-        t1 = t2;
-
-        handleInput(reg);
-
-        //while code is small it will work a very long time
-        while (lag >= MS_PER_FRAME) {
-            update();
-            lag -= MS_PER_FRAME;
-        }
-
-        render();
-    }
+    animation_timer_.start(17, this);
 }
+
+void Game::timerEvent(QTimerEvent* event) {
+    t2 = std::chrono::high_resolution_clock::now();
+    dt = t2 - t1;
+    std::cout << dt.count() << " ms\n";
+    t1 = t2;
+}
+
+
+//
+//
+// ANOTHER GAMELOOP IMPLEMENTATION. PROBABLY WILL BE INSERTED LATER
+//
+// 
+
+//void Game::play()
+//{
+//    init();
+//
+//    this->show();
+//
+//    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+//    std::chrono::high_resolution_clock::time_point t2;
+//    std::chrono::duration<double, std::milli> dt; 
+//    double lag = 0.0;
+//
+//    while (state != State::exit) {
+//        t2 = std::chrono::high_resolution_clock::now();
+//        dt = t2 - t1;
+//        lag += dt.count();
+//        t1 = t2;
+//
+//        handleInput(reg);
+//
+//        //while code is small it will work a very long time
+//        while (lag >= MS_PER_FRAME) {
+//            update();
+//            lag -= MS_PER_FRAME;
+//        }
+//
+//        render();
+//    }
+//}
 
 void Game::init()
 {
     setupPlayer(); 
-    setupInput();
 }
 
 void Game::update()
@@ -67,60 +108,53 @@ void Game::render()
 //
 //
 
-const Uint8* actualKeys = SDL_GetKeyboardState(NULL);
+// for multiple presses processing 
+std::map<int, bool> keysPressedRightNow = { {Qt::Key_W, false},
+                                        {Qt::Key_A, false},
+                                        {Qt::Key_S, false},
+                                        {Qt::Key_D, false} };
 
-bool keystroke[SDL_KEYMAP_SIZE];
+void Game::keyPressEvent(QKeyEvent* event)
+{
+    qDebug() << "key press event";
+    if (state == State::play) {
+        keysPressedRightNow[event->key()] = true;
+    }
+}
 
-void Game::setupInput() {
-    memset(keystroke, 0, SDL_KEYMAP_SIZE);
+void Game::keyReleaseEvent(QKeyEvent* event)
+{
+    qDebug() << "key release event";
+    if (state == State::play) {
+        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        keysPressedRightNow[event->key()] = false;
+    }
 }
 
 void Game::handleInput(entt::registry& reg) {
     // DEBUG
-    qDebug() << "WAITING FOR YOU PRESS KEYS";
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    qDebug() << "HI! I'M HANDLE INPUT";
 
-    SDL_PumpEvents();
-
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) { 
-        qDebug() << "SDL EVENT";
-        switch (event.type) {
-        case SDL_KEYDOWN:
-            qDebug() << "KEYDOWN";
-            keystroke[event.key.keysym.scancode] = true;
-            break;
-        case SDL_KEYUP:
-            qDebug() << "KEYUP";
-            keystroke[event.key.keysym.scancode] = false;
-            break;
-        case SDL_QUIT:
-            state = State::exit;
-            break;
-        }
+    //auto view = reg.view<>();
+    if (keysPressedRightNow[Qt::Key_W]) {
+        qDebug() << "W";
     }
-
-    // movement 
-    auto view = reg.view<Player, Acceleration>();
-
-    for (auto e : view) {
-        auto& a = view.get<Acceleration>(e).acc;
+    if (keysPressedRightNow[Qt::Key_A]) {
+        qDebug() << "A";
     }
-
-    if (actualKeys[SDL_SCANCODE_W]) {
-        qDebug() << "w";
+    if (keysPressedRightNow[Qt::Key_S]) {
+        qDebug() << "S";
     }
-    if (actualKeys[SDL_SCANCODE_A]) {
-        qDebug() << "a";
+    if (keysPressedRightNow[Qt::Key_D]) {
+        qDebug() << "D";
     }
-    if (actualKeys[SDL_SCANCODE_S]) {
-        qDebug() << "s";
-    }
-    if (actualKeys[SDL_SCANCODE_D]) {
-        qDebug() << "d";
-    }
-
-    if (actualKeys[SDL_SCANCODE_ESCAPE]) {
-        state = State::exit;
-    }
+    //if (keysPressedRightNow[Qt::Key_Space]) {
+    //    //dodge
+    //}
+    //if (keysPressedRightNow[Qt::Key_F]) {
+    //    //devour
+    //}
+    //if (keysPressedRightNow[Qt::Key_Escape]) {
+    //    state = State::exit;
+    //}
 }
