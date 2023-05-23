@@ -4,7 +4,7 @@
 #include <qgraphicsitem.h>
 
 struct Sprite {
-    QGraphicsPixmapItem sprite; 
+    QGraphicsPixmapItem sp; 
 };
 
 #endif //SPRITE_H

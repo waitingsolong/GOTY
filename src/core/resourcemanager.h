@@ -10,7 +10,6 @@ public:
     
 private:
     QMap<QString, QPixmap> playerSprite; 
-
 };
 
 #endif //RESOURCE_MANAGER_H

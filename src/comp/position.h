@@ -1,10 +1,10 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-#include <qpoint.h>
+#include <qvector2d.h>
 
 struct Position {
-    QPointF pos; 
+    QVector2D pos; 
 };
 
 #endif //POSITION_H

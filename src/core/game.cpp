@@ -2,13 +2,19 @@
 #include <chrono>
 #include <SDL.h>
 
+// DEBUG 
+#include <thread>
+
 #include "game.h"
 #include "../helpers/core/factories.h"
 #include "vizualizer.h"
 #include "../constants.h"
-
-// DEBUG 
-#include <thread>
+#include "../sys/physics.h"
+#include "../helpers/core/setupplayer.h"
+#include "../comp/player.h"
+#include "../comp/velocity.h"
+#include "../comp/acceleration.h"
+#include <iostream>
 
 void Game::play()
 {
@@ -41,11 +47,13 @@ void Game::play()
 
 void Game::init()
 {
+    setupPlayer(); 
     setupInput();
 }
 
 void Game::update()
 {
+    updatePhysics(reg);
 }
 
 void Game::render()
@@ -70,23 +78,33 @@ void Game::setupInput() {
 void Game::handleInput(entt::registry& reg) {
     // DEBUG
     qDebug() << "WAITING FOR YOU PRESS KEYS";
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
     SDL_PumpEvents();
 
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) { 
+        qDebug() << "SDL EVENT";
         switch (event.type) {
         case SDL_KEYDOWN:
+            qDebug() << "KEYDOWN";
             keystroke[event.key.keysym.scancode] = true;
             break;
         case SDL_KEYUP:
+            qDebug() << "KEYUP";
             keystroke[event.key.keysym.scancode] = false;
             break;
         case SDL_QUIT:
             state = State::exit;
             break;
         }
+    }
+
+    // movement 
+    auto view = reg.view<Player, Acceleration>();
+
+    for (auto e : view) {
+        auto& a = view.get<Acceleration>(e).acc;
     }
 
     if (actualKeys[SDL_SCANCODE_W]) {
@@ -101,6 +119,7 @@ void Game::handleInput(entt::registry& reg) {
     if (actualKeys[SDL_SCANCODE_D]) {
         qDebug() << "d";
     }
+
     if (actualKeys[SDL_SCANCODE_ESCAPE]) {
         state = State::exit;
     }

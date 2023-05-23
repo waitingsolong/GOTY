@@ -1,10 +1,15 @@
-//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") // off cmd 
+// #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup") // off cmd 
 
 #include <qapplication.h>
 #include <qdebug.h>
+#include <SDL2/SDL.h>
+#include <iostream>
 
 #include "core/vizualizer.h"
 #include "core/game.h"
+
+// DEBUG
+#include "constants.h"
 
 int main(int argc, char *argv[])
 {

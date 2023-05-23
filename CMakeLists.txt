@@ -37,10 +37,9 @@ add_executable(game
           src/comp/spawner.h
           src/comp/life.h
           src/comp/player.h
-          src/comp/entity.h
+          src/comp/enemy.h
           src/comp/gore.h
-          src/comp/hitbox.h 
-          )
+          src/comp/hitbox.h  "src/sys/physics.h" "src/sys/physics.cpp" "src/helpers/core/setupplayer.h" "src/helpers/core/setupplayer.cpp" "src/comp/spritevector.h")
 
 # entt
 find_package(EnTT CONFIG REQUIRED)
@@ -71,7 +70,7 @@ target_link_libraries(game PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 qt_add_resources(game "resources"
     PREFIX "/"
     FILES
-        textures/player/fly_fly.png
+        resources/img/player/fly_fly.png
 )
 
 # qtmultimedia

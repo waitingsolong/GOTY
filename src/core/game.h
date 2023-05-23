@@ -26,9 +26,10 @@ private:
     void update();
     void render();
 
-    void setupInput();
-    void keyboard(); 
+    void setupInput(); 
     void handleInput(entt::registry& reg);
+
+    // gameplay 
 };
 
 #endif // GAME_H
