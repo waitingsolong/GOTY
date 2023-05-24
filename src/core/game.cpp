@@ -84,15 +84,8 @@ void Game::updateItems(entt::registry& reg) {
 
 void Game::render()
 {
-    updateItems(reg); 
+    updateItems(reg);
     scene->update();
-
-    //animation_timer_.stop();
-}
-
-void Game::mousePressEvent(QMouseEvent* eventPress) {
-    QPointF p = eventPress->pos();
-    std::cout << '\n' << p.x() << ' ' << p.y(); 
 }
 
 //
@@ -145,7 +138,6 @@ std::map<int, bool> keysPressedRightNow = { {Qt::Key_W, false},
 
 void Game::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << "\nkey press event";
     if (state == State::play) {
         keysPressedRightNow[event->key()] = true;
     }
@@ -153,11 +145,17 @@ void Game::keyPressEvent(QKeyEvent* event)
 
 void Game::keyReleaseEvent(QKeyEvent* event)
 {
-    qDebug() << "\nkey release event";
     if (state == State::play) {
-        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         keysPressedRightNow[event->key()] = false;
     }
+}
+
+void Game::mousePressEvent(QMouseEvent* eventPress) {
+    if (state != State::play) {
+        return;
+    }
+
+
 }
 
 inline bool bothOfCoordsAreNotZero(QVector2D v) {
@@ -165,8 +163,6 @@ inline bool bothOfCoordsAreNotZero(QVector2D v) {
 }
 
 void Game::handleInput(entt::registry& reg) {
-    std::cout << "\nhandling input";
-
     auto view = reg.view<Player, Acceleration>();
 
     int keys[4]{ Qt::Key_W, Qt::Key_A, Qt::Key_S ,Qt::Key_D };
@@ -176,23 +172,8 @@ void Game::handleInput(entt::registry& reg) {
 
         QVector2D deltaA(0.0f, 0.0f);
 
-        std::cout << "\ndeltaA: " << deltaA.x() << ' ' << deltaA.y();
         for (int i = 0; i < 4; i++) {
             if (keysPressedRightNow[keys[i]]) { deltaA += acceleration[keys[i]]; }
-            std::cout << "\ndeltaA: " << deltaA.x() << ' ' << deltaA.y();
-        }
-
-        if (keysPressedRightNow[Qt::Key_W]) {
-            qDebug() << "\nW";
-        }
-        if (keysPressedRightNow[Qt::Key_A]) {
-            qDebug() << "\nA";
-        }
-        if (keysPressedRightNow[Qt::Key_S]) {
-            qDebug() << "\nS";
-        }
-        if (keysPressedRightNow[Qt::Key_D]) {
-            qDebug() << "\nD";
         }
 
         a = (bothOfCoordsAreNotZero) ? deltaA.normalized() * accelerationMag : deltaA; 

@@ -23,8 +23,6 @@ void moveAll(entt::registry& reg)
     auto view = reg.view<Position, Velocity, Acceleration>();
 
     for (auto e : view) {
-        std::cout << "\nmovement happening";
-
         auto& p = view.get<Position>(e).pos;
         auto& v = view.get<Velocity>(e).vel;
         auto& a = view.get<Acceleration>(e).acc;
@@ -32,9 +30,9 @@ void moveAll(entt::registry& reg)
         p += v;
         v += a; 
 
-        std::cout << "\na: " << a.x() << " " << a.y();
-        std::cout << "\nv: " << v.x() << " " << v.y();
-        std::cout << "\np: " << p.x() << " " << p.y();
+        //std::cout << "\na: " << a.x() << " " << a.y();
+        //std::cout << "\nv: " << v.x() << " " << v.y();
+        //std::cout << "\np: " << p.x() << " " << p.y();
     }
 }
 
@@ -50,34 +48,21 @@ void collideAll(entt::registry& reg)
         auto& v = view.get<Velocity>(e).vel;
         auto& a = view.get<Acceleration>(e).acc;
 
-        if (reg.any_of<Player>(e)) {
-
-            if (p.x() < 0.0f || p.x() > SCREEN_WIDTH) {
-                p.setX(p.x() - v.x());
-                v *= (-1.0f) * VELOCITY_LOSS_COEFF;
-                a *= ACCELERATION_LOSS_COEFF;
-            }
-
-            if (p.y() < 0.0f || p.y() > SCREEN_HEIGHT) {
-                p.setY(p.y() - v.y());
-                v *= (-1.0f) * VELOCITY_LOSS_COEFF;
-                a *= ACCELERATION_LOSS_COEFF;
-            }
-
+        if (p.x() < 0.0f || p.x() > SCREEN_WIDTH) {
+            v.setX(-1.0f * v.x());
+            a.setX(-1.0f * a.x());
+            v *= VELOCITY_LOSS_COEFF;
+            a *= ACCELERATION_LOSS_COEFF;
+            p.setX(p.x() + v.x());
         }
 
-        if (reg.any_of<Enemy>(e)) {
-
-            if (p.x() < 0.0f || p.x() > SCREEN_WIDTH) {
-                p.setX(p.x() - v.x());
-                a.setX(-1.0f * a.x());
-            }
-
-            if (p.y() < 0.0f || p.y() > SCREEN_HEIGHT) {
-                p.setY(p.y() - v.y());
-                a.setX(-1.0f * a.x());
-            }
-
+        if (p.y() < 0.0f || p.y() > SCREEN_HEIGHT) {
+            v.setY(-1.0f * v.y());
+            a.setY(-1.0f * a.y());
+            v *= VELOCITY_LOSS_COEFF;
+            a *= ACCELERATION_LOSS_COEFF;
+            p.setY(p.y() + v.y());
         }
+
     }
 }

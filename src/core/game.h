@@ -26,10 +26,11 @@ protected:
 
 private:
     enum class State {play,exit};
-    enum class Busyness {hover,encounter,dialogue};
+    enum class Busy {hover,encounter,dialogue};
 
     entt::registry reg;
     State state = State::play;
+    Busy busy = Busy::hover; 
     QGraphicsScene* scene;
     QBasicTimer animation_timer_;
 

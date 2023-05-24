@@ -8,9 +8,14 @@
 #include "../../comp/sprite.h"
 #include "factories.h"
 
+void equip(entt::registry& reg) {
+
+}
+
 void setupPlayer(entt::registry& reg, QGraphicsScene* scene)
 {
     makePlayer(reg);
+    equip(reg);
 
     auto view = reg.view<Player, Position>();
 

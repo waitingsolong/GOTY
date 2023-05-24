@@ -29,8 +29,15 @@ add_executable(game
         	src/core/game.h
           src/core/game.cpp
 
+          src/sys/physics.h 
+          src/sys/physics.cpp
+
         	src/helpers/core/factories.h
         	src/helpers/core/factories.cpp
+          src/helpers/core/setupplayer.h 
+          src/helpers/core/setupplayer.cpp
+          src/helpers/factories/weaponFactory.h 
+          src/helpers/factories/weaponFactory.cpp
 
           src/comp/velocity.h
           src/comp/acceleration.h
@@ -42,7 +49,10 @@ add_executable(game
           src/comp/player.h
           src/comp/enemy.h
           src/comp/gore.h
-          src/comp/hitbox.h  "src/sys/physics.h" "src/sys/physics.cpp" "src/helpers/core/setupplayer.h" "src/helpers/core/setupplayer.cpp" "src/comp/spritevector.h")
+          src/comp/shootpattern.h
+          src/comp/label.h
+          src/comp/spritevector.h 
+          src/comp/weapon.h "src/comp/damage.h")
 
 # entt
 find_package(EnTT CONFIG REQUIRED)
@@ -64,9 +74,10 @@ target_link_libraries(game PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 
 qt_add_resources(game "resources"
     PREFIX "/"
-    BASE "resources/img/player/"
+    BASE "resources/img/"
     FILES
         resources/img/player/fly_fly.png
+        resources/img/weapon/deagle.png
 )
 
 # qtmultimedia
