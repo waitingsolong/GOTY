@@ -53,13 +53,15 @@ void collideAll(entt::registry& reg)
         if (reg.any_of<Player>(e)) {
 
             if (p.x() < 0.0f || p.x() > SCREEN_WIDTH) {
-                p.setX(p.x() - REPULSION_COEFF * v.x());
-                a *= ACCELERATION_LOSS;
+                p.setX(p.x() - v.x());
+                v *= (-1.0f) * VELOCITY_LOSS_COEFF;
+                a *= ACCELERATION_LOSS_COEFF;
             }
 
             if (p.y() < 0.0f || p.y() > SCREEN_HEIGHT) {
-                p.setY(p.y() - REPULSION_COEFF * v.y());
-                a *= ACCELERATION_LOSS;
+                p.setY(p.y() - v.y());
+                v *= (-1.0f) * VELOCITY_LOSS_COEFF;
+                a *= ACCELERATION_LOSS_COEFF;
             }
 
         }

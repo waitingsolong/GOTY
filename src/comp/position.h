@@ -3,6 +3,8 @@
 
 #include <qvector2d.h>
 
+// IT MUST BE POSITION OF LEFT TOP ANGLE OF ITEM 
+
 struct Position {
     QVector2D pos; 
 };

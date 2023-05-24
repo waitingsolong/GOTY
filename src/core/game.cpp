@@ -42,7 +42,7 @@ void Game::play()
 
     //t1 = std::chrono::high_resolution_clock::now();
 
-    //animation_timer_.start(MS_PER_FRAME, this);
+    animation_timer_.start(MS_PER_FRAME, this);
 }
 
 void Game::timerEvent(QTimerEvent* event) {
@@ -70,14 +70,15 @@ void Game::update()
     updatePhysics(reg);
 }
 
-void updateItems(entt::registry& reg) {
+void Game::updateItems(entt::registry& reg) {
     auto view = reg.view<Position, Sprite>();
 
     for (auto e : view) {
         auto& pos = view.get<Position>(e).pos;
         auto& sp = view.get<Sprite>(e).sp;
 
-        sp->setPos(pos.x(), pos.y());
+        QPointF scenePos = this->mapToScene(pos.x(), pos.y());
+        sp->setPos(scenePos);
     }
 }
 
@@ -85,6 +86,13 @@ void Game::render()
 {
     updateItems(reg); 
     scene->update();
+
+    //animation_timer_.stop();
+}
+
+void Game::mousePressEvent(QMouseEvent* eventPress) {
+    QPointF p = eventPress->pos();
+    std::cout << '\n' << p.x() << ' ' << p.y(); 
 }
 
 //
@@ -137,7 +145,7 @@ std::map<int, bool> keysPressedRightNow = { {Qt::Key_W, false},
 
 void Game::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << "key press event";
+    qDebug() << "\nkey press event";
     if (state == State::play) {
         keysPressedRightNow[event->key()] = true;
     }
@@ -145,11 +153,15 @@ void Game::keyPressEvent(QKeyEvent* event)
 
 void Game::keyReleaseEvent(QKeyEvent* event)
 {
-    qDebug() << "key release event";
+    qDebug() << "\nkey release event";
     if (state == State::play) {
         //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         keysPressedRightNow[event->key()] = false;
     }
+}
+
+inline bool bothOfCoordsAreNotZero(QVector2D v) {
+    return (v.x() != 0.0f || v.y() != 0.0f) ? true : false;
 }
 
 void Game::handleInput(entt::registry& reg) {
@@ -157,12 +169,12 @@ void Game::handleInput(entt::registry& reg) {
 
     auto view = reg.view<Player, Acceleration>();
 
-    int keys[4]{Qt::Key_W, Qt::Key_A, Qt::Key_S ,Qt::Key_D};
+    int keys[4]{ Qt::Key_W, Qt::Key_A, Qt::Key_S ,Qt::Key_D };
 
     for (auto e : view) {
         auto& a = view.get<Acceleration>(e).acc;
-        
-        QVector2D deltaA(0.0f, 0.0f); 
+
+        QVector2D deltaA(0.0f, 0.0f);
 
         std::cout << "\ndeltaA: " << deltaA.x() << ' ' << deltaA.y();
         for (int i = 0; i < 4; i++) {
@@ -170,22 +182,20 @@ void Game::handleInput(entt::registry& reg) {
             std::cout << "\ndeltaA: " << deltaA.x() << ' ' << deltaA.y();
         }
 
-        /*if (keysPressedRightNow[Qt::Key_W]) {
-            qDebug() << "W";
+        if (keysPressedRightNow[Qt::Key_W]) {
+            qDebug() << "\nW";
         }
         if (keysPressedRightNow[Qt::Key_A]) {
-            qDebug() << "A";
+            qDebug() << "\nA";
         }
         if (keysPressedRightNow[Qt::Key_S]) {
-            qDebug() << "S";
+            qDebug() << "\nS";
         }
         if (keysPressedRightNow[Qt::Key_D]) {
-            qDebug() << "D";
-        }*/
-
-        if (qFuzzyCompare(NULL_VECTOR, deltaA)) {
-            a += deltaA.normalized() * accelerationMag; 
+            qDebug() << "\nD";
         }
+
+        a = (bothOfCoordsAreNotZero) ? deltaA.normalized() * accelerationMag : deltaA; 
     }
 
     //if (keysPressedRightNow[Qt::Key_Space]) {
