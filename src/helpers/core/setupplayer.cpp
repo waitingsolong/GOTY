@@ -19,7 +19,8 @@ void setupPlayer(entt::registry& reg, QGraphicsScene* scene)
                    
         auto sprite = scene->addPixmap(PLAYER_SPRITE_DEFAULT);
         sprite->setZValue(PLAYER_Z_VALUE);
-        sprite->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
+        sprite->setPos(PLAYER_SPAWNPOS.x() - sprite->boundingRect().width() / 2, 
+            PLAYER_SPAWNPOS.y() - sprite->boundingRect().height() / 2);
 
         reg.emplace<Sprite>(e, sprite);
     }

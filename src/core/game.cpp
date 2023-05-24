@@ -34,10 +34,6 @@ Game::Game(QWidget* parent)
     this->setWindowTitle("GOTY");
 }
 
-std::chrono::high_resolution_clock::time_point t1;
-std::chrono::high_resolution_clock::time_point t2;
-std::chrono::duration<double, std::milli> dt;
-
 void Game::play()
 {
     init();
@@ -46,7 +42,7 @@ void Game::play()
 
     //t1 = std::chrono::high_resolution_clock::now();
 
-    animation_timer_.start(MS_PER_FRAME, this);
+    //animation_timer_.start(MS_PER_FRAME, this);
 }
 
 void Game::timerEvent(QTimerEvent* event) {

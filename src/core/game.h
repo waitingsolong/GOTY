@@ -19,6 +19,7 @@ public:
     void play();
 
 protected:
+
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void timerEvent(QTimerEvent* event) override;

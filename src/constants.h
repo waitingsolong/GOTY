@@ -22,7 +22,7 @@ constexpr int PLAYER_Z_VALUE = 1;
 
 // initialization 
 
-constexpr QVector2D PLAYER_SPAWNPOS{ SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT * 2.0 / 3.0f };
+constexpr QVector2D PLAYER_SPAWNPOS = QVector2D(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT * 2.0 / 3.0f);
 constexpr __int8 PLAYER_AMOUNT_OF_LIFES{ 3 };
 constexpr float PLAYER_BASIC_ACCELERATION_M = 3.0f;
 
