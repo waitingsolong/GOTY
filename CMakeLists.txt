@@ -34,7 +34,7 @@ add_executable(game
 
         	src/helpers/core/factories.h
         	src/helpers/core/factories.cpp
-          src/helpers/core/setupplayer.h 
+           
           src/helpers/core/setupplayer.cpp
           src/helpers/factories/weaponFactory.h 
           src/helpers/factories/weaponFactory.cpp
@@ -52,7 +52,9 @@ add_executable(game
           src/comp/shootpattern.h
           src/comp/label.h
           src/comp/spritevector.h 
-          src/comp/weapon.h "src/comp/damage.h")
+          src/comp/weapon.h 
+          src/comp/shotinterval.h 
+          src/comp/damage.h   "src/comp/timer.h" "src/sys/combat.h" "src/sys/combat.cpp" "src/helpers/factories/bulletFactory.cpp" "src/helpers/factories/bulletFactory.h")
 
 # entt
 find_package(EnTT CONFIG REQUIRED)

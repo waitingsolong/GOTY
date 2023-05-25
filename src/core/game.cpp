@@ -8,12 +8,13 @@
 #include "game.h"
 #include "../helpers/core/factories.h"
 #include "../sys/physics.h"
-#include "../helpers/core/setupplayer.h"
 #include "../comp/player.h"
 #include "../comp/velocity.h"
 #include "../comp/acceleration.h"
 #include "../comp/position.h"
 #include "../comp/sprite.h"
+#include "../sys/combat.h"
+#include "../sys/combat.cpp"
 
 Game::Game(QWidget* parent)
     : QGraphicsView{ parent }
@@ -62,7 +63,7 @@ void Game::timerEvent(QTimerEvent* event) {
 
 void Game::init()
 {
-    setupPlayer(reg, scene);
+    setupPlayer(reg);
 }
 
 void Game::update()
@@ -136,6 +137,12 @@ std::map<int, bool> keysPressedRightNow = { {Qt::Key_W, false},
                                         {Qt::Key_S, false},
                                         {Qt::Key_D, false} };
 
+std::map<int, bool> buttonsClickedRightNow = { {Qt::MouseButton::LeftButton, false},
+                                        {Qt::MouseButton::RightButton, false} };
+
+std::map<int, bool> buttonsUnclickedRightNow = { {Qt::MouseButton::LeftButton, false},
+                                        {Qt::MouseButton::RightButton, false} };
+
 void Game::keyPressEvent(QKeyEvent* event)
 {
     if (state == State::play) {
@@ -150,12 +157,16 @@ void Game::keyReleaseEvent(QKeyEvent* event)
     }
 }
 
-void Game::mousePressEvent(QMouseEvent* eventPress) {
-    if (state != State::play) {
-        return;
+void Game::mousePressEvent(QMouseEvent* event) {
+    if (state == State::play) {
+        buttonsClickedRightNow[event->button()] = true;
     }
+}
 
-
+void Game::mouseReleaseEvent(QMouseEvent* event) {
+    if (state == State::play) {
+        buttonsClickedRightNow[event->button()] = false;
+    }
 }
 
 inline bool bothOfCoordsAreNotZero(QVector2D v) {
@@ -163,7 +174,11 @@ inline bool bothOfCoordsAreNotZero(QVector2D v) {
 }
 
 void Game::handleInput(entt::registry& reg) {
-    auto view = reg.view<Player, Acceleration>();
+    // 
+    // presses
+    // 
+
+    auto view = reg.view<Player, Acceleration, Velocity, Position>();
 
     int keys[4]{ Qt::Key_W, Qt::Key_A, Qt::Key_S ,Qt::Key_D };
 
@@ -176,7 +191,7 @@ void Game::handleInput(entt::registry& reg) {
             if (keysPressedRightNow[keys[i]]) { deltaA += acceleration[keys[i]]; }
         }
 
-        a = (bothOfCoordsAreNotZero) ? deltaA.normalized() * accelerationMag : deltaA; 
+        a = (bothOfCoordsAreNotZero(deltaA)) ? deltaA.normalized() * accelerationMag : deltaA;
     }
 
     //if (keysPressedRightNow[Qt::Key_Space]) {
@@ -188,4 +203,28 @@ void Game::handleInput(entt::registry& reg) {
     //if (keysPressedRightNow[Qt::Key_Escape]) {
     //    state = State::exit;
     //}
+
+    // 
+    // clicks 
+    // 
+
+    QPointF cursorPos = this->mapToScene(this->mapFromGlobal(QCursor::pos()));
+
+    if (buttonsClickedRightNow[Qt::MouseButton::LeftButton]) {
+        startShoot(reg); 
+    }
+    else if (buttonsUnclickedRightNow[Qt::MouseButton::LeftButton]) {
+        stopShoot(reg);
+    }
+    if (buttonsClickedRightNow[Qt::MouseButton::RightButton]) {
+        // parry 
+    }
+}
+
+//
+// i had to do it 
+//
+
+void shoot(entt::registry& reg) {
+
 }

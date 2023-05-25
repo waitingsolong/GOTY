@@ -37,13 +37,14 @@ constexpr float ACCELERATION_LOSS_COEFF = 0.5f;
 constexpr float VELOCITY_LOSS_COEFF = 0.5f;
 
 // weapon stats 
+// (shot interval measures in ms) 
 
-enum Weapon {
+enum WeaponLabels {
     WEAPON_LABEL_DEAGLE
 };
 
-constexpr float WEAPON_VELOCITY_DEAGLE = 10.0f;
-constexpr float WEAPON_FIRERATE_DEAGLE;
-constexpr float WEAPON_DAMAGE_DEAGLE;
+constexpr float WEAPON_SHOT_VELOCITY_DEAGLE = 10.0f;
+constexpr int WEAPON_SHOT_INTERVAL_DEAGLE = 500;
+constexpr int WEAPON_DAMAGE_DEAGLE = 100;
 
 #endif //CONSTANTS_H

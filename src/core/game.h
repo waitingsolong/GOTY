@@ -8,7 +8,7 @@
 #include <QBasicTimer>
 #include "../constants.h"
 
-class Game : QGraphicsView
+class Game : public QGraphicsView
 {   
     Q_OBJECT
 
@@ -20,9 +20,13 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override; 
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void timerEvent(QTimerEvent* event) override;
+
+private slots: 
+    void shoot(entt::registry& reg);
 
 private:
     enum class State {play,exit};
@@ -41,7 +45,17 @@ private:
     void updateItems(entt::registry& reg);
     void handleInput(entt::registry& reg);
 
+    //
+    // setups
+    //
+
+    void equip(entt::registry& reg);
+    void setupPlayer(entt::registry& reg);
+
+    //
     // gameplay 
+    //
+
     QMap<int, QVector2D> acceleration = { {Qt::Key_W, QVector2D(0, -PLAYER_BASIC_ACCELERATION_M)},
                                         {Qt::Key_A, QVector2D(-PLAYER_BASIC_ACCELERATION_M, 0)},
                                         {Qt::Key_S, QVector2D(0, PLAYER_BASIC_ACCELERATION_M)},

@@ -1,18 +1,19 @@
 #include <entt/entity/registry.hpp>
 #include <qgraphicsitem.h>
 
-#include "setupplayer.h"
 #include "../../comp/player.h"
 #include "../../comp/position.h"
 #include "../../constants.h"
 #include "../../comp/sprite.h"
 #include "factories.h"
+#include "../factories/weaponFactory.h"
+#include "../../core/game.h"
 
-void equip(entt::registry& reg) {
-
+void Game::equip(entt::registry& reg) {
+    makeDesertEagle(reg, this);
 }
 
-void setupPlayer(entt::registry& reg, QGraphicsScene* scene)
+void Game::setupPlayer(entt::registry& reg)
 {
     makePlayer(reg);
     equip(reg);

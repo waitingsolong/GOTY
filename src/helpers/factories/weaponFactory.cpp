@@ -5,12 +5,22 @@
 #include "../../constants.h"
 #include "../core/factories.h"
 #include "../../comp/damage.h"
-#include "../../comp/firerate.h"
+#include "../../comp/shotinterval.h"
+#include "../../comp/timer.h"
 
-entt::entity makeDesertEagle(entt::registry& reg) {
+entt::entity makeAutoWeapon(entt::registry& reg) {
     const entt::entity e = makeWeapon(reg);
+    reg.emplace<Timer>(e);
+    reg.patch<Timer>(e, new QTimer());
+    return e;
+}
+
+entt::entity makeDesertEagle(entt::registry& reg, Game* game) {
+    const entt::entity e = makeAutoWeapon(reg);
     reg.replace<Label>(e, WEAPON_LABEL_DEAGLE);
-    reg.replace<FireRate>(e, WEAPON_FIRERATE_DEAGLE);
     reg.replace<Damage>(e, WEAPON_DAMAGE_DEAGLE);
+    //reg.patch<Timer>(e, [&](QTimer* t) { t->setInterval(WEAPON_SHOT_INTERVAL_DEAGLE); 
+    //                                    QObject::connect(t, SIGNAL(timeout()), game, SLOT(shoot())); } );
+
     return e;
 }
