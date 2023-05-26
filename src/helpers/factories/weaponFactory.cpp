@@ -7,11 +7,11 @@
 #include "../../comp/damage.h"
 #include "../../comp/shotinterval.h"
 #include "../../comp/timer.h"
+#include "../../comp/weapon.h"
 
 entt::entity makeAutoWeapon(entt::registry& reg) {
     const entt::entity e = makeWeapon(reg);
     reg.emplace<Timer>(e);
-    reg.patch<Timer>(e, new QTimer());
     return e;
 }
 
@@ -19,8 +19,12 @@ entt::entity makeDesertEagle(entt::registry& reg, Game* game) {
     const entt::entity e = makeAutoWeapon(reg);
     reg.replace<Label>(e, WEAPON_LABEL_DEAGLE);
     reg.replace<Damage>(e, WEAPON_DAMAGE_DEAGLE);
-    //reg.patch<Timer>(e, [&](QTimer* t) { t->setInterval(WEAPON_SHOT_INTERVAL_DEAGLE); 
-    //                                    QObject::connect(t, SIGNAL(timeout()), game, SLOT(shoot())); } );
+    reg.replace<Weapon>(e, true);
 
+    QTimer* t = new QTimer();
+    t->setInterval(WEAPON_SHOT_INTERVAL_DEAGLE);
+    QObject::connect(t, &QTimer::timeout, game, &Game::shoot);
+    reg.replace<Timer>(e, t);
+    
     return e;
 }

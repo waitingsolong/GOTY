@@ -3,6 +3,7 @@
 
 #include <qgraphicsview.h>
 #include <qevent.h>
+#include <qobject.h>
 
 #include <entt/entity/registry.hpp>
 #include <QBasicTimer>
@@ -18,15 +19,15 @@ public:
 
     void play();
 
+public slots:
+    void shoot();
+
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override; 
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void timerEvent(QTimerEvent* event) override;
-
-private slots: 
-    void shoot(entt::registry& reg);
 
 private:
     enum class State {play,exit};
@@ -43,7 +44,7 @@ private:
     void render();
 
     void updateItems(entt::registry& reg);
-    void handleInput(entt::registry& reg);
+    void updateInput(entt::registry& reg);
 
     //
     // setups

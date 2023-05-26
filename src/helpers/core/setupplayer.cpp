@@ -9,7 +9,7 @@
 #include "../factories/weaponFactory.h"
 #include "../../core/game.h"
 
-void Game::equip(entt::registry& reg) {
+void Game::equip(entt::registry& reg) { // creating weapon means permament access to it
     makeDesertEagle(reg, this);
 }
 

@@ -54,7 +54,8 @@ add_executable(game
           src/comp/spritevector.h 
           src/comp/weapon.h 
           src/comp/shotinterval.h 
-          src/comp/damage.h   "src/comp/timer.h" "src/sys/combat.h" "src/sys/combat.cpp" "src/helpers/factories/bulletFactory.cpp" "src/helpers/factories/bulletFactory.h")
+          src/comp/damage.h   "src/comp/timer.h" "src/sys/combat.h" "src/sys/combat.cpp" "src/helpers/factories/bulletFactory.cpp" "src/helpers/factories/bulletFactory.h" 
+          )
 
 # entt
 find_package(EnTT CONFIG REQUIRED)
