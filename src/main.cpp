@@ -20,9 +20,6 @@ int main(int argc, char *argv[])
 // is there a way to unite two items but only their textures and 
 // handle them like separate when register collisions? 
 
-// WHEN ADDING SIGNALS/SLOTS SET THE Q_OBJECT MACRO NOT EARLIER
-// IT CAUSES BUILD ERROR
-
 // qreal convert to float only in arm, vec2d, vec3d. Maybe it makes sense 
 // to set Qt configure flag -qreal float 
 
@@ -31,3 +28,7 @@ int main(int argc, char *argv[])
 // just move two different items of hitbox and sprite separately 
 
 // timer through 1) singleshots or 2) separate class updated in Game::update() using std::chrono
+
+// insert code directly like startShooting() and others
+
+// move weapon only if they're current 

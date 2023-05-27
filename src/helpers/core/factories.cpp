@@ -9,11 +9,12 @@
 #include "../../comp/gore.h"
 #include "../../comp/velocity.h"
 #include "../../comp/acceleration.h"
-#include "../../comp/spritevector.h"
 #include "../../comp/weapon.h"
 #include "../../comp/label.h"
 #include "../../comp/damage.h"
-#include "../../comp/shotinterval.h"
+#include "../../comp/bullet.h"
+
+// general makes do not define qgraphicsitem type
 
 entt::entity makePlayer(entt::registry &reg) {
     const entt::entity e = reg.create();
@@ -36,7 +37,10 @@ entt::entity makeWeapon(entt::registry& reg) {
 
 entt::entity makeBullet(entt::registry& reg) {
     const entt::entity e = reg.create();
-    //reg.emplace<Bullet>(e);
+    reg.emplace<Bullet>(e);
+    reg.emplace<Position>(e);
+    reg.emplace<Velocity>(e, NULL_VECTOR);
+    reg.emplace<Acceleration>(e, NULL_VECTOR);
     return e;
 }
 

@@ -4,7 +4,7 @@
 #include <qstring.h>
 
 struct Label {
-    int n;
+    int n; // using enums 
 };
 
 #endif //NAME_H

@@ -214,4 +214,6 @@ void Game::mouseReleaseEvent(QMouseEvent* event) {
 // i had to do it
 //
 
-void Game::shoot() { qDebug() << "piu"; }
+void Game::shoot() { 
+        
+}

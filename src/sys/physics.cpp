@@ -11,6 +11,7 @@
 
 // DEBUG
 #include <iostream>
+#include "../comp/weapon.h"
 
 void updatePhysics(entt::registry& reg)
 {
@@ -20,7 +21,7 @@ void updatePhysics(entt::registry& reg)
 
 void moveAll(entt::registry& reg)
 {
-    auto view = reg.view<Position, Velocity, Acceleration>();
+    auto view = reg.view<Player, Position, Velocity, Acceleration>();
 
     for (auto e : view) {
         auto& p = view.get<Position>(e).pos;

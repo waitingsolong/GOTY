@@ -9,7 +9,9 @@
 #include "../factories/weaponFactory.h"
 #include "../../core/game.h"
 
-void Game::equip(entt::registry& reg) { // creating weapon means permament access to it
+void Game::equip(entt::registry& reg) {
+    // creating weapon means permament access to it
+
     makeDesertEagle(reg, this);
 }
 
@@ -30,6 +32,11 @@ void Game::setupPlayer(entt::registry& reg)
         sprite->setZValue(PLAYER_Z_VALUE);
         sprite->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
 
-        reg.emplace<Sprite>(e, sprite);
+        QGraphicsItemGroup* playerGroup = new QGraphicsItemGroup();
+        scene->addItem(playerGroup);
+        playerGroup->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
+        playerGroup->addToGroup(sprite);
+
+        reg.emplace<Sprite>(e, playerGroup);
     }
 }
