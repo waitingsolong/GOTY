@@ -7,6 +7,9 @@
 #include "../../comp/damage.h"
 #include "../../comp/timer.h"
 #include "../../comp/weapon.h"
+#include "../../comp/sprite.h"
+#include "../../comp/player.h"
+#include "../../comp/spriteGroup.h"
 
 entt::entity makeAutoWeapon(entt::registry& reg) {
     const entt::entity e = makeWeapon(reg);
@@ -27,20 +30,16 @@ entt::entity makeDesertEagle(entt::registry& reg, Game* game) {
     
     //
 
-    //auto view = reg.view<Player, Position>();
+    auto view = reg.view<Player, SpriteGroup>();
+    QGraphicsItemGroup* playerGroup;
 
-    //for (auto e : view) {
-    //    auto& p = view.get<Position>(e).pos;
+    for (auto e : view) {
+        auto sprite = game->scene->addPixmap(WEAPON_SPRITE_DEAGLE);
+        sprite->setPos(PLAYER_SPAWNPOS.x() + 37, PLAYER_SPAWNPOS.y() - 5); // MAGIC
 
-    //    auto sprite = scene->addPixmap(PLAYER_SPRITE_DEFAULT);
-    //    p.setX(PLAYER_SPAWNPOS.x() - sprite->boundingRect().width() / 2);
-    //    p.setY(PLAYER_SPAWNPOS.y() - sprite->boundingRect().height() / 2);
-    //    sprite->setShapeMode(QGraphicsPixmapItem::HeuristicMaskShape);
-    //    sprite->setZValue(PLAYER_Z_VALUE);
-    //    sprite->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
-
-    //    reg.emplace<Sprite>(e, sprite);
-    //}
+        playerGroup = view.get<SpriteGroup>(e).gr;
+        playerGroup->addToGroup(sprite);
+    }
     
     return e;
 }

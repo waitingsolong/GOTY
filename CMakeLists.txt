@@ -55,7 +55,7 @@ add_executable(game
           src/comp/weapon.h 
            
           src/comp/damage.h   "src/comp/timer.h" "src/sys/combat.h" "src/sys/combat.cpp" "src/helpers/factories/bulletFactory.cpp" "src/helpers/factories/bulletFactory.h" 
-           "src/comp/bullet.h")
+           "src/comp/bullet.h" "src/comp/spritegroup.h")
 
 # entt
 find_package(EnTT CONFIG REQUIRED)

@@ -14,6 +14,7 @@
 #include "../comp/position.h"
 #include "../comp/sprite.h"
 #include "../sys/combat.h"
+#include "../comp/spriteGroup.h"
 
 Game::Game(QWidget* parent)
     : QGraphicsView{ parent }
@@ -71,14 +72,14 @@ void Game::update()
 }
 
 void Game::updateItems(entt::registry& reg) {
-    auto view = reg.view<Position, Sprite>();
+    auto view = reg.view<Position, SpriteGroup>();
 
     for (auto e : view) {
         auto& pos = view.get<Position>(e).pos;
-        auto& sp = view.get<Sprite>(e).sp;
+        auto& gr = view.get<SpriteGroup>(e).gr;
 
         QPointF scenePos = this->mapToScene(pos.x(), pos.y());
-        sp->setPos(scenePos);
+        gr->setPos(scenePos);
     }
 }
 

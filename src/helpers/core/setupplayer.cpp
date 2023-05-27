@@ -8,9 +8,10 @@
 #include "factories.h"
 #include "../factories/weaponFactory.h"
 #include "../../core/game.h"
+#include "../../comp/spriteGroup.h"
 
 void Game::equip(entt::registry& reg) {
-    // creating weapon means permament access to it
+    // make weapon means permament access to it
 
     makeDesertEagle(reg, this);
 }
@@ -18,7 +19,6 @@ void Game::equip(entt::registry& reg) {
 void Game::setupPlayer(entt::registry& reg)
 {
     makePlayer(reg);
-    equip(reg);
 
     auto view = reg.view<Player, Position>();
 
@@ -37,6 +37,8 @@ void Game::setupPlayer(entt::registry& reg)
         playerGroup->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
         playerGroup->addToGroup(sprite);
 
-        reg.emplace<Sprite>(e, playerGroup);
+        reg.emplace<SpriteGroup>(e, playerGroup);
     }
+
+    equip(reg);
 }

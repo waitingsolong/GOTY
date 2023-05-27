@@ -19,6 +19,8 @@ public:
 
     void play();
 
+    QGraphicsScene* scene;
+
 public slots:
     void shoot();
 
@@ -36,7 +38,6 @@ private:
     entt::registry reg;
     State state = State::play;
     Busy busy = Busy::hover; 
-    QGraphicsScene* scene;
     QBasicTimer animation_timer_;
 
     void init();
