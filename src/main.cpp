@@ -8,6 +8,7 @@
 
 // DEBUG
 #include "constants.h"
+#include <qmath.h>
 
 int main(int argc, char *argv[])
 {
@@ -30,3 +31,7 @@ int main(int argc, char *argv[])
 // insert code directly like startShooting() and others
 
 // move qgraphicsview to game was a bad idea. Maybe it makes sense to return vizualizer again later  
+
+// atan2 - angle btw Ox varies from -pi to pi. To know oriented angle from a to b you need to atan2(b) - atan2(a)
+
+// https://pinetools.com/rotate-image

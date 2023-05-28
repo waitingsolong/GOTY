@@ -14,6 +14,7 @@
 #include "../comp/velocity.h"
 #include "../comp/acceleration.h"
 #include "../helpers/core/factories.h"
+#include "../assets.h"
 
 // shoot must be here R.I.P.
 
@@ -56,8 +57,8 @@ void stopShoot(entt::registry& reg) {
     }
 }
 
-inline constexpr float BULLET_ACCEL_MAG = 2.0; 
-inline constexpr float BULLET_VEL_MAG = 30.0;
+inline constexpr float BULLET_ACCEL_MAG = 5.0; 
+inline constexpr float BULLET_VEL_MAG = 150.0;
 
 void Game::shoot() {
     // somewhere will be info about bullets type 
@@ -82,7 +83,8 @@ void Game::shoot() {
 
     QVector2D vec = (pos - QVector2D(dest)).normalized(); // vector from dest to source point 
     reg.get<Acceleration>(be).acc += vec * BULLET_ACCEL_MAG; // drag force 
-    reg.get<Velocity>(be).vel += (-vec) * BULLET_VEL_MAG; // bullet muzzle velocity 
+    auto& vel = reg.get<Velocity>(be).vel; 
+    vel += (-vec) * BULLET_VEL_MAG; // bullet muzzle velocity 
 
     // get stats from weapon 
 
@@ -95,7 +97,7 @@ void Game::shoot() {
 
         QGraphicsPixmapItem* sprite; 
         if (viewWeapon.get<Label>(we).l == WEAPON_LABEL_DEAGLE) {
-            sprite = scene->addPixmap(WEAPON_SPRITE_DEAGLE);
+            sprite = scene->addPixmap(getNearestPixmap(vel, BULLET_LABEL_50AE)); // (!) later check what type of ammo using right now
         }
 
         sprite->setShapeMode(QGraphicsPixmapItem::HeuristicMaskShape);
