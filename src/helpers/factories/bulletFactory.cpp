@@ -6,9 +6,8 @@
 #include "../core/factories.h"
 #include "../../comp/damage.h"
 
-//entt::entity makeDesertEagle(entt::registry& reg) {
-//    const entt::entity e = makeWeapon(reg);
-//    reg.replace<Label>(e, WEAPON_LABEL_DEAGLE);
-//    reg.replace<Damage>(e, WEAPON_DAMAGE_DEAGLE);
-//    return e;
-//}
+entt::entity makeBulletDefault(entt::registry& reg) {
+    const entt::entity e = makeBullet(reg);
+
+    return e;
+}

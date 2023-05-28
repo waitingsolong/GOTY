@@ -8,10 +8,10 @@
 #include "../comp/player.h"
 #include "../constants.h"
 #include "../comp/enemy.h"
+#include "../comp/weapon.h"
 
 // DEBUG
-#include <iostream>
-#include "../comp/weapon.h"
+#include <qdebug.h>
 
 void updatePhysics(entt::registry& reg)
 {
@@ -19,9 +19,11 @@ void updatePhysics(entt::registry& reg)
     collideAll(reg);
 }
 
+inline const QVector2D MAGIC_SHIFT_DEAGLE = QVector2D(0.0f, -4.0f);
+
 void moveAll(entt::registry& reg)
 {
-    auto view = reg.view<Player, Position, Velocity, Acceleration>();
+    auto view = reg.view<Position, Velocity, Acceleration>(entt::exclude<Weapon>);
 
     for (auto e : view) {
         auto& p = view.get<Position>(e).pos;
@@ -29,11 +31,23 @@ void moveAll(entt::registry& reg)
         auto& a = view.get<Acceleration>(e).acc;
 
         p += v;
-        v += a; 
+        v += a;
+    }
 
-        //std::cout << "\na: " << a.x() << " " << a.y();
-        //std::cout << "\nv: " << v.x() << " " << v.y();
-        //std::cout << "\np: " << p.x() << " " << p.y();
+    // change it for current weapon 
+
+    auto viewWeapon = reg.view<Weapon, Position>();
+    auto viewPlayer = reg.view<Player, Position>();
+
+    for (auto pe : viewPlayer) {
+        for (auto we : viewWeapon) {
+            if (viewWeapon.get<Weapon>(we).curr) {
+                auto& wp = viewWeapon.get<Position>(we).pos;
+                auto& pp = viewPlayer.get<Position>(pe).pos;
+
+                wp = pp + MAGIC_SHIFT_DEAGLE;
+            }
+        }
     }
 }
 

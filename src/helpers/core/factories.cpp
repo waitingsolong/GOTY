@@ -30,17 +30,19 @@ entt::entity makePlayer(entt::registry &reg) {
 entt::entity makeWeapon(entt::registry& reg) {
     const entt::entity e = reg.create();
     reg.emplace<Weapon>(e);
-    reg.emplace<Label>(e);
     reg.emplace<Damage>(e);
+    reg.emplace<Label>(e);
+    reg.emplace<Position>(e);
     return e;
 }
 
 entt::entity makeBullet(entt::registry& reg) {
     const entt::entity e = reg.create();
     reg.emplace<Bullet>(e);
+    reg.emplace<Damage>(e);
     reg.emplace<Position>(e);
-    reg.emplace<Velocity>(e, NULL_VECTOR);
-    reg.emplace<Acceleration>(e, NULL_VECTOR);
+    reg.emplace<Velocity>(e);
+    reg.emplace<Acceleration>(e);
     return e;
 }
 

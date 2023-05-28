@@ -14,7 +14,6 @@
 #include "../comp/position.h"
 #include "../comp/sprite.h"
 #include "../sys/combat.h"
-#include "../comp/spriteGroup.h"
 
 Game::Game(QWidget* parent)
     : QGraphicsView{ parent }
@@ -72,14 +71,14 @@ void Game::update()
 }
 
 void Game::updateItems(entt::registry& reg) {
-    auto view = reg.view<Position, SpriteGroup>();
+    auto view = reg.view<Position, Sprite>();
 
     for (auto e : view) {
         auto& pos = view.get<Position>(e).pos;
-        auto& gr = view.get<SpriteGroup>(e).gr;
+        auto& sp = view.get<Sprite>(e).sp;
 
         QPointF scenePos = this->mapToScene(pos.x(), pos.y());
-        gr->setPos(scenePos);
+        sp->setPos(scenePos);
     }
 }
 
@@ -156,9 +155,6 @@ inline bool bothOfCoordsAreNotZero(QVector2D v) {
 }
 
 void Game::updateInput(entt::registry& reg) {
-    // 
-    // presses
-    // 
 
     auto view = reg.view<Player, Acceleration, Velocity, Position>();
 
@@ -176,12 +172,17 @@ void Game::updateInput(entt::registry& reg) {
         a = (bothOfCoordsAreNotZero(deltaA)) ? deltaA.normalized() * accelerationMag : deltaA;
     }
 
-    //if (keysPressedRightNow[Qt::Key_Space]) {
-    //    //dodge
-    //}
-    //if (keysPressedRightNow[Qt::Key_F]) {
-    //    //devour
-    //}
+    // 0..9 - 48..57
+    for (int i = 48; i < 58; i++) {
+        if (keysPressedRightNow[i]) {
+            selectWeapon(reg, i-48, this);
+        }
+    }
+
+    if (keysPressedRightNow[Qt::Key_R]) {
+        putOffWeapon(reg);
+    }
+    
     //if (keysPressedRightNow[Qt::Key_Escape]) {
     //    state = State::exit;
     //}
@@ -209,12 +210,4 @@ void Game::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::MouseButton::LeftButton) {
         stopShoot(reg);
     }
-}
-
-// 
-// i had to do it
-//
-
-void Game::shoot() { 
-        
 }

@@ -8,7 +8,6 @@
 #include "factories.h"
 #include "../factories/weaponFactory.h"
 #include "../../core/game.h"
-#include "../../comp/spriteGroup.h"
 
 void Game::equip(entt::registry& reg) {
     // make weapon means permament access to it
@@ -32,12 +31,7 @@ void Game::setupPlayer(entt::registry& reg)
         sprite->setZValue(PLAYER_Z_VALUE);
         sprite->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
 
-        QGraphicsItemGroup* playerGroup = new QGraphicsItemGroup();
-        scene->addItem(playerGroup);
-        playerGroup->setPos(PLAYER_SPAWNPOS.x(), PLAYER_SPAWNPOS.y());
-        playerGroup->addToGroup(sprite);
-
-        reg.emplace<SpriteGroup>(e, playerGroup);
+        reg.emplace<Sprite>(e, sprite);
     }
 
     equip(reg);

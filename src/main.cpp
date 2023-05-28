@@ -27,8 +27,6 @@ int main(int argc, char *argv[])
 // of bullet items with every time drawing ellipse or 
 // just move two different items of hitbox and sprite separately 
 
-// timer through 1) singleshots or 2) separate class updated in Game::update() using std::chrono
-
 // insert code directly like startShooting() and others
 
-// move weapon only if they're current 
+// move qgraphicsview to game was a bad idea. Maybe it makes sense to return vizualizer again later  
