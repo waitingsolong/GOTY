@@ -138,6 +138,12 @@ std::map<int, bool> keysPressedRightNow = { {Qt::Key_W, false},
                                         {Qt::Key_S, false},
                                         {Qt::Key_D, false} };
 
+std::map<int, bool> buttonsPressedRightNow = { {Qt::MouseButton::LeftButton, false},
+                                        {Qt::MouseButton::RightButton, false} };
+
+std::map<int, bool> buttonsReleasedRightNow = { {Qt::MouseButton::LeftButton, false},
+                                        {Qt::MouseButton::RightButton, false} };
+
 void Game::keyPressEvent(QKeyEvent* event)
 {
     if (state == State::play) {
@@ -149,6 +155,19 @@ void Game::keyReleaseEvent(QKeyEvent* event)
 {
     if (state == State::play) {
         keysPressedRightNow[event->key()] = false;
+    }
+}
+
+void Game::mousePressEvent(QMouseEvent* event) {
+    qDebug() << "govno";
+    if (state == State::play) {
+        buttonsPressedRightNow[event->button()] = true;
+    }
+}
+
+void Game::mouseReleaseEvent(QMouseEvent* event) {
+    if (state == State::play) {
+        buttonsReleasedRightNow[event->button()] = true;
     }
 }
 
@@ -188,28 +207,17 @@ void Game::updateInput(entt::registry& reg) {
     //if (keysPressedRightNow[Qt::Key_Escape]) {
     //    state = State::exit;
     //}
-}
 
-void Game::mousePressEvent(QMouseEvent* event) {
-    if (state != State::play) {
-        return;
-    }
+    //
+    // clicks
+    //
 
-    if (event->button() == Qt::MouseButton::LeftButton) {
+    if (buttonsPressedRightNow[Qt::MouseButton::LeftButton]) {
+        buttonsPressedRightNow[Qt::MouseButton::LeftButton] = false;
         startShoot(reg);
-    }
-
-    if (event->button() == Qt::MouseButton::RightButton) {
-        // action 
-    }
-}
-
-void Game::mouseReleaseEvent(QMouseEvent* event) {
-    if (state != State::play) {
-        return;
-    }
-
-    if (event->button() == Qt::MouseButton::LeftButton) {
+    } 
+    else if (buttonsReleasedRightNow[Qt::MouseButton::LeftButton]) {
+        buttonsReleasedRightNow[Qt::MouseButton::LeftButton] = false;
         stopShoot(reg);
     }
 }
