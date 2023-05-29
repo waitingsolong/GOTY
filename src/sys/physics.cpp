@@ -12,6 +12,7 @@
 
 // DEBUG
 #include <qdebug.h>
+#include "../comp/bullet.h"
 
 void updatePhysics(entt::registry& reg)
 {
@@ -53,7 +54,7 @@ void moveAll(entt::registry& reg)
 
 void collideAll(entt::registry& reg)
 {
-    auto view = reg.view<Position, Velocity, Acceleration>();
+    auto view = reg.view<Position, Velocity, Acceleration>(entt::exclude<Bullet>);
 
     QVector2D p;
     QVector2D v;

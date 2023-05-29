@@ -29,7 +29,7 @@ std::vector<float> degAngles;
 void generateAngles(int n) {
     float delta = 360.0f / static_cast<float>(n);
     degAngles.clear(); // angles from -180.0f to 180.0f with step delta 
-    for (int i = 0; i <= n; i++) {
+    for (int i = 1; i <= n; i++) {
         degAngles.push_back(round(-180.0f + i * delta));
     }
     
@@ -67,8 +67,8 @@ void setupSpriteMap(QMap<int, QPixmap>& map, QString path, int q) {
         generateAngles(n);
     }
 
-    QPixmap startPixmap = QPixmap(path).transformed(QTransform().rotate(-90));; // first sprite need 90 dg. It directs it with X axis
-    for (int i = 1; i < angles.size(); i++) { // pass -180
+    QPixmap startPixmap = QPixmap(path).transformed(QTransform().rotate(90)); // rotate 90 deg counterclockwise to adapt coordinate system to qt's
+    for (int i = 0; i < angles.size(); i++) { // pass -180
         map[angles[i]] = startPixmap.transformed(QTransform().rotate(static_cast<int>(degAngles[i])));
     }
 }
@@ -84,28 +84,41 @@ inline int detectTen(int randNumFromAngles) {
     return qPow(10, (std::to_string(randNumFromAngles).size() - 1));
 }
 
+// (!) no sense in calculating localTen every time. It depends on selected weapon 
 inline int getNearestAngle(QVector2D v) {
-    int angle = static_cast<int>(round(qAtan2(v.y(), v.x()) * detectTen(-angles[0])));
+    int localTen = detectTen(-angles[0]); 
+    int translated2PI = static_cast<int>(round(M_PI * localTen));
 
-    auto it = std::lower_bound(angles.begin(), angles.end(), angle, std::less<int>());
-    if (it == angles.end() - 1 || it == angles.end()) {
-        qDebug() << "krai";
-        return *angles.end();
+    int angle = static_cast<int>(round(qAtan2(v.y(), v.x()) * localTen));
+
+    auto lb = angles.begin();
+    while (angle > *lb && lb != angles.end()) {
+        lb++;
     }
-    auto lb = (it == angles.begin()) ? angles.end() - 2 : it - 1;
+    if (lb == angles.end()) {
+        qDebug() << "ERROR. Why?";
+    }
 
-    int angleBtwAngleAndPrevious =  std::min(qAbs(angle - *lb), 6 - qAbs(angle - *lb)); // 6 = 2pi
-    int angleBtwAngleAndNext     =  std::min(qAbs(*(lb + 1) - angle) , 6 - qAbs(*(lb + 1) - angle));
+    std::vector<int>::iterator rb;
+    if (lb == angles.begin()) {
+        lb = angles.end() - 1;
+        rb = angles.begin();
+    }
+    else {
+        rb = lb;
+        lb--;
+    }
+    
+    auto delta1 = qAbs(*lb - angle); 
+    auto delta2 = qAbs(angle - *rb);
+    delta1 = std::min(delta1, translated2PI - delta1);
+    delta2 = std::min(delta2, translated2PI - delta2);
 
-    if (angleBtwAngleAndPrevious < angleBtwAngleAndNext) {
-        if (lb == angles.begin()) {
-            return *angles.end(); // -180 return 180 
-        }
-
+    if (delta1 < delta2) {
         return *lb;
     }
     else {
-        return *(lb + 1);
+        return *rb; 
     }
 }
 
@@ -114,11 +127,10 @@ QPixmap getNearestPixmap(QVector2D v, int bulletLabel) {
     switch (bulletLabel) {
         case BULLET_LABEL_50AE:
             if (BULLET_SPRITES_50AE.find(nearestAngle) == BULLET_SPRITES_50AE.end()) {
-                //qDebug() << "Nearest angle for vector (" + std::to_string(v.x()) + ',' + std::to_string(v.y()) + ") is not fit map: " + std::to_string(nearestAngle);
                 qDebug() << "not found";
             }
             return BULLET_SPRITES_50AE[nearestAngle];
     }
 
-    qDebug() << "Switch bullet label in getNearestPixmap() failed";
+    qDebug() << "ERROR. Switch bullet label in getNearestPixmap() failed";
 }
