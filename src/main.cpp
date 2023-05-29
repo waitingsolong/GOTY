@@ -9,12 +9,18 @@
 // DEBUG
 #include "constants.h"
 #include <qmath.h>
+#include "assets.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Game game;
-    game.play();
+    try {
+        game.play();
+    }
+    catch (const std::string& exceptionString) {
+        std::cout << exceptionString;
+    }
     return a.exec();
 }
 

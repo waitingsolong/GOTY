@@ -14,6 +14,7 @@
 #include "../comp/position.h"
 #include "../comp/sprite.h"
 #include "../sys/combat.h"
+#include "../assets.h"
 
 Game::Game(QWidget* parent)
     : QGraphicsView{ parent }
@@ -63,6 +64,7 @@ void Game::timerEvent(QTimerEvent* event) {
 void Game::init()
 {
     setupPlayer(reg);
+    setupSpritesMaps();
 }
 
 void Game::update()

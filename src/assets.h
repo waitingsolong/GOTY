@@ -5,21 +5,13 @@
 #include <qpixmap.h>
 #include <qvector2d.h>
 
+// DEBUG
+int getNearestAngle(QVector2D v);
+
+void setupSpritesMaps();
+
 QPixmap getNearestPixmap(QVector2D, int); 
 
-const QMap<float, QPixmap> BULLET_SPRITES_50AE {
-    { qDegreesToRadians(0.0f),    QPixmap(":bullet/50AE/50AE_0.png") },
-    { qDegreesToRadians(30.0f),   QPixmap(":bullet/50AE/50AE_30.png") },
-    { qDegreesToRadians(60.0f),   QPixmap(":bullet/50AE/50AE_60.png") },
-    { qDegreesToRadians(90.0f),   QPixmap(":bullet/50AE/50AE_90.png") },
-    { qDegreesToRadians(120.0f),  QPixmap(":bullet/50AE/50AE_120.png") },
-    { qDegreesToRadians(150.0f),  QPixmap(":bullet/50AE/50AE_150.png") },
-    { qDegreesToRadians(180.0f),  QPixmap(":bullet/50AE/50AE_180.png") },
-    { qDegreesToRadians(-150.0f), QPixmap(":bullet/50AE/50AE_-150.png") },
-    { qDegreesToRadians(-120.0f), QPixmap(":bullet/50AE/50AE_-120.png") },
-    { qDegreesToRadians(-90.0f),  QPixmap(":bullet/50AE/50AE_-90.png") },
-    { qDegreesToRadians(-60.0f),  QPixmap(":bullet/50AE/50AE_-60.png") },
-    { qDegreesToRadians(-30.0f),  QPixmap(":bullet/50AE/50AE_-30.png") }
-};
+static QMap<int, QPixmap> BULLET_SPRITES_50AE; // int: rad * ten
 
 #endif //ASSETS_H
