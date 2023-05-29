@@ -81,19 +81,7 @@ qt_add_resources(game "resources"
     FILES
         resources/img/player/fly_fly.png
         resources/img/weapon/deagle.png
-
-        resources/img/bullet/50AE/50AE_-30.png
-        resources/img/bullet/50AE/50AE_-60.png
-        resources/img/bullet/50AE/50AE_-90.png
-        resources/img/bullet/50AE/50AE_-120.png
-        resources/img/bullet/50AE/50AE_-150.png
-        resources/img/bullet/50AE/50AE_180.png
-        resources/img/bullet/50AE/50AE_150.png
-        resources/img/bullet/50AE/50AE_120.png
-        resources/img/bullet/50AE/50AE_90.png
-        resources/img/bullet/50AE/50AE_60.png
-        resources/img/bullet/50AE/50AE_30.png
-        resources/img/bullet/50AE/50AE_0.png
+        resources/img/bullet/50AE.png
 )
 
 # qtmultimedia

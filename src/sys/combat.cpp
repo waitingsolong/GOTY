@@ -93,10 +93,10 @@ void Game::shoot() {
 
         QGraphicsPixmapItem* sprite; 
         if (viewWeapon.get<Label>(we).l == WEAPON_LABEL_DEAGLE) {
-            // DEBUG
-            qDebug() << vel.x() << ' ' << vel.y() << ' ' << qRadiansToDegrees(qAtan2(vel.y(), vel.x())) << ' ' <<
-                qRadiansToDegrees(static_cast<float>(getNearestAngle(vel)) / 10.0f);
-
+            //// DEBUG
+            //qDebug() << vel.x() << ' ' << vel.y() << ' ' << qRadiansToDegrees(qAtan2(vel.y(), vel.x())) << ' ' <<
+            //                                                qRadiansToDegrees(static_cast<float>(getNearestAngle(vel)) / 10.0f);
+            qDebug() << "idinahui";
             sprite = scene->addPixmap(getNearestPixmap(vel, BULLET_LABEL_50AE)); // (!) later check what type of ammo using right now
         }
 
