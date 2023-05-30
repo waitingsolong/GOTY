@@ -159,7 +159,6 @@ void Game::keyReleaseEvent(QKeyEvent* event)
 }
 
 void Game::mousePressEvent(QMouseEvent* event) {
-    qDebug() << "govno";
     if (state == State::play) {
         buttonsPressedRightNow[event->button()] = true;
     }

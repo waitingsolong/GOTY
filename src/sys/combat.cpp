@@ -53,8 +53,8 @@ void stopShoot(entt::registry& reg) {
     }
 }
 
-inline constexpr float BULLET_ACCEL_MAG = 0.0f; 
-inline constexpr float BULLET_VEL_MAG = 50.0f;
+inline constexpr float BULLET_ACCEL_MAG = 5.0f; 
+inline constexpr float BULLET_VEL_MAG = 200.0f;
 
 void Game::shoot() {
     // somewhere will be info about bullets type 
